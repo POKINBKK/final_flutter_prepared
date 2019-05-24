@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import '../utils/currentUser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/currentUser.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+
+SharedPreferences sharedPreferences;
 
 
 class HomePage extends StatefulWidget{
@@ -12,6 +17,30 @@ class HomePage extends StatefulWidget{
 }
 
 class HomePageState extends State<HomePage>{
+  String data = '';
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    // For your reference print the AppDoc directory
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/data.txt');
+  }
+
+  Future<String> readcontent() async {
+    try {
+      final file = await _localFile;
+      // Read the file
+      String contents = await file.readAsString();
+      this.data = contents;
+      return this.data;
+    } catch (e) {
+      // If there is an error reading, return a default String
+      return 'Error';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
