@@ -66,6 +66,7 @@ class HomePageState extends State<HomePage>{
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
+        automaticallyImplyLeading: false,
       ),
       body: Container(
         child: ListView(
