@@ -18,6 +18,7 @@ class HomePage extends StatefulWidget{
 
 class HomePageState extends State<HomePage>{
   String data = '';
+  String name = '';
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     // For your reference print the AppDoc directory
@@ -29,18 +30,37 @@ class HomePageState extends State<HomePage>{
     return File('$path/data.txt');
   }
 
-  Future<String> readcontent() async {
+  Future<void> readcontent() async {
     try {
       final file = await _localFile;
       // Read the file
       String contents = await file.readAsString();
-      this.data = contents;
-      return this.data;
+      setState(() {
+        this.data = contents;
+      });
     } catch (e) {
       // If there is an error reading, return a default String
-      return 'Error';
+      setState(() {
+        this.data = 'Error';
+      });
     }
   }
+
+  @override
+  void initState() {
+    // TODO: implement setState
+    super.initState();
+    readcontent();
+    _getName();
+  }
+
+  Future<void> _getName() async{
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+     name = prefs.getString('name'); 
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,8 +72,8 @@ class HomePageState extends State<HomePage>{
           padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
           children: <Widget>[
             ListTile(
-              title: Text('Hello ${CurrentUser.NAME}'),
-              subtitle: Text('this is my quote "${CurrentUser.QUOTE}"'),
+              title: Text('Hello ${name}'),
+              subtitle: Text('this is my quote "${data}"'),
             ),
             RaisedButton(
               child: Text("PROFILE SETUP"),

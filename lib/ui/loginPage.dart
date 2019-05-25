@@ -132,6 +132,7 @@ class LoginPageState extends State<LoginPage>{
                       CurrentUser.QUOTE = userList[i].quote;
                       final prefs = await SharedPreferences.getInstance();
                       prefs.setString('username', userList[i].userid);
+                      prefs.setString('name', userList[i].name);
                       this.isValid = true;
                       print("this user valid");
                       break;

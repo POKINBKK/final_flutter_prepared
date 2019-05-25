@@ -162,7 +162,7 @@ class ProfilePageState extends State<ProfilePage>{
                 userData.age = age.text;
                 userData.password = password.text;
                 userData.quote = quote.text;
-                writeContent(quote.text);
+                await writeContent(quote.text);
                 //function to check if user in
                 Future isUserTaken(User user) async {
                   var userList = await allUser;
@@ -186,7 +186,7 @@ class ProfilePageState extends State<ProfilePage>{
                     CurrentUser.AGE = userData.age;
                     CurrentUser.PASSWORD = userData.password;
                     CurrentUser.QUOTE = userData.quote;
-                    Navigator.pop(context);
+                    Navigator.of(context).pushReplacementNamed('/home');
                     print('insert complete');
                   }
                 }
